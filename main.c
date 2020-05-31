@@ -276,6 +276,98 @@ char stud_book_file3(char* point) {
     fclose(file);
     return 1;
 }
+
+char prov_st(char* point) {
+    printf("\n");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
+    setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+    FILE* file;
+
+    char str[N];
+    int j = 0;
+    int i = 0;
+    int k = 0;
+    int c = 0;
+    char sim[N] = ";";
+    char* istr;
+
+    file = fopen("students.csv", "r");                               // подсчет строк
+    if (file == NULL) {
+        printf("No such file");
+        exit(-333);
+    }
+    while (!feof(file)) {                                         // пока не кончится файл
+        if (fgetc(file) == '\n')
+            c++;
+    }
+    c++;
+
+    struct student* st;
+    st = (struct student*)malloc(c * sizeof(struct student));
+    fclose(file);
+    file = fopen("students.csv", "r");
+    for (int k = 0; k < (c - 1); k++) {                              //обычно в конце файл заканчивается пустой строкой, если нет, то убрать -1
+        fgets(str, N, file);
+        istr = strtok(str, sim);
+        strncpy(st[k].z_book, istr, N);
+        istr = strtok(NULL, sim);
+        strncpy(st[k].s_name, istr, N);
+        istr = strtok(NULL, sim);
+        strncpy(st[k].name, istr, N);
+        istr = strtok(NULL, sim);
+        strncpy(st[k].m_name, istr, N);
+        istr = strtok(NULL, sim);
+        strncpy(st[k].kaf, istr, N);
+        istr = strtok(NULL, sim);
+        strncpy(st[k].spec, istr, N);
+    }
+    fclose(file);
+    for (k = 0; k < (c - 1); k++) {
+        if (strcmp(point, st[k].z_book) == 0) {                // сравнение строк
+            return 1;
+        }
+    }
+    return 0;
+}
+void return_data(long long point) {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
+    setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+    FILE* file;
+    file = fopen("student_books.csv", "r");
+    int c = 0;
+    char str[N];
+    int p = 0;
+    int flag = 0;
+    char arr[N] = { 0 };
+    if (file == NULL) {
+        printf("No such file");
+        exit(-333);
+    }
+    while (!feof(file)) {                                         // пока не кончится файл
+        if (fgetc(file) == '\n')
+            c++;
+    }
+    c++;
+    struct st_book* stb;
+    stb = (struct st_book*)malloc(c * sizeof(struct st_book));
+    fclose(file);
+    file = fopen("student_books.csv", "r");
+    printf("\nБлижайшие даты сдачи книг: ");
+    for (int k = 0; k < (c - 1); k++) {                              //обычно в конце файл заканчивается пустой строкой, если нет, то убрать -1
+        fgets(str, N, file);
+        stb[k].ISBN = atoll(strtok(str, ";"));
+        strncpy(stb[k].z_book, strtok(NULL, ";"), N);
+        strncpy(arr, strtok(NULL, "\n"), N);
+        stb[k].day = 10 * (arr[0] - '0') + (arr[1] - '0');
+        stb[k].month = 10 * (arr[3] - '0') + (arr[4] - '0');
+        stb[k].year = 1000 * (arr[6] - '0') + 100 * (arr[7] - '0') + 10 * (arr[8] - '0') + (arr[9] - '0');
+        if (point == stb[k].ISBN)
+            printf("\n%d.%d.%d\n", stb[k].day, stb[k].month, stb[k].year);
+    }
+    fclose(file);
+}
 void  students_menu() {
     printf("\n");
     SetConsoleCP(1251);
@@ -466,7 +558,7 @@ void  students_menu() {
             else {
                 for (int k = 0; k < (c - 1); k++) {                       //обычно в конце файл заканчивается пустой строкой, если нет, то убрать -1
                     if (strcmp(del_z_book, st[k].z_book) == 0) {
-
+                        printf("Студент удален");
                         flag = 1;
                     }
                     if (flag == 0)
@@ -474,6 +566,7 @@ void  students_menu() {
                     flag = 0;
                 }
                 printf("\nОперация окончена");
+                fclose(file);
             }
         }
         else if (choice == 3) {
@@ -487,6 +580,7 @@ void  students_menu() {
                 fprintf(file, "%s;%s;%s;%s;%s;%s", st[k].z_book, st[k].s_name, st[k].name, st[k].m_name, st[k].kaf, st[k].spec);
             }
             printf("Successful!\n");
+            fclose(file);
         }
 
         else if (choice == 4) {
@@ -626,7 +720,7 @@ void books_menu() {
             fscanf(file, "%lld;", &lib[i].ISBN); //для перехода на следующую строку. если следующая строка пустая, то цикл прекратится и ничего не выведется
         }
 
-        printf("\nВыберите операцию:\n1) Добавить книгу\n2) Удалить книгу\n3) Сделать бэкап\n4) Восстановить базу по бэкапу\n5) Информация о студентах, которые взяли книгу\n6) Поиск по фамилии автора\n7) Завершить программу\n");
+        printf("\nВыберите операцию:\n1) Добавить книгу\n2) Удалить книгу\n3) Сделать бэкап\n4) Восстановить базу по бэкапу\n5) Информация о студентах, которые взяли книгу\n6) Поиск по фамилии автора\n7) Выдать книгу студенту\n8) Завершить программу\n");
         fclose(file);
 
         int operation;
@@ -818,9 +912,67 @@ void books_menu() {
             fclose(file);
         }
         else if (operation == 7) {
-            fclose(file);
+        char add_z_book[N];
+        int ok_ISBN = 0;
+        int s = 0;
+        int k = 0;
+        long long add_ISBN;
+        printf("Введите номер зачетной книжки студента: ");
+        str[0] = getchar();
+        str[j] = getchar();
+        while (str[j] != '\n') {
+            j++;
+            str[j] = getchar();
+        }
+        str[j] = '\0';
+        strncpy(add_z_book, str, N);
+        j = 0;
+        if (prov_st(add_z_book) == 1) {
+            printf("Введите ISBN книги для выдачи: ");
+            scanf("%lld", &add_ISBN);
+            file = fopen("books.csv", "w");           //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            for (i = 0; i < (c - 1); i++) {
 
-            return;
+                if (lib[i].ISBN == add_ISBN) {
+                    ok_ISBN = 1;
+                    s = i;
+                    if (lib[i].amount != 0)
+                        lib[i].amount = lib[i].amount - 1;
+                    else {
+                        printf("\nВ библиотеке не осталось такой книги");
+                        printf("\n");
+                        k = -1;
+                    }
+                }
+                fprintf(file, "%lld;%s;%s;%u;%u\n", lib[i].ISBN, lib[i].author, lib[i].b_name, lib[i].all_amount, lib[i].amount);
+            }
+            fclose(file);
+            if (ok_ISBN == 0) {
+                printf("Книги с таким ISBN не существует.");
+            }
+            if (k != -1 && ok_ISBN != 0) {
+                file = fopen("student_books.csv", "a");
+                printf("\nВведите дату возврата книги (дд.мм.гггг): ");
+                char arr[N] = { 0 };
+                char data[N];
+
+                scanf("%s", data);
+
+                fprintf(file, "%lld;%s;%s\n", lib[s].ISBN, add_z_book, data);
+                fclose(file);
+            }
+            else {
+                return_data(lib[s].ISBN);
+            }
+        }
+        else {
+            printf("\nТакого студента не существует");
+        }
+        }
+        else if (operation == 8) {
+        fclose(file);
+
+        return;
         }
     }
 }
