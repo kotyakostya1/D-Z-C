@@ -35,10 +35,13 @@ struct user {
     char b_access[N];
     char s_access[N];
 };
-char stud_book_file(char *point) {
+void rus() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
     setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+}
+char stud_book_file(char *point) {
+    rus();
     FILE* file;
     file = fopen("student_books.csv", "r");
     int c = 0;
@@ -81,9 +84,7 @@ char stud_book_file(char *point) {
     return p;
 }
 char stud_book_file1(long long point) {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-    setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+    rus();
     FILE* file;
     file = fopen("student_books.csv", "r");
     int c = 0;
@@ -121,12 +122,9 @@ char stud_book_file1(long long point) {
     }
     fclose(file);
     return p;
-
 }
 char stud_book_file2(long long point) {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-    setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+    rus();
     FILE* file;
     file = fopen("student_books.csv", "r");
     int c = 0;
@@ -157,9 +155,6 @@ char stud_book_file2(long long point) {
         stb[k].year = 1000 * (arr[6] - '0') + 100 * (arr[7] - '0') + 10 * (arr[8] - '0') + (arr[9] - '0');
 
         if (point == stb[k].ISBN) {
-            SetConsoleCP(1251);
-            SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-            setlocale(LC_ALL, "Rus"); //руссификатор для консоли
             FILE* file2;
             char n_str[N];
             int j = 0;
@@ -189,7 +184,6 @@ char stud_book_file2(long long point) {
                 }
             }
             fclose(file2);
-
         }
 
     }
@@ -199,9 +193,7 @@ char stud_book_file2(long long point) {
     return 1;
 }
 char stud_book_file3(char* point) {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-    setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+    rus();
     FILE* file;
     file = fopen("student_books.csv", "r");
     int c = 0;
@@ -230,13 +222,8 @@ char stud_book_file3(char* point) {
         stb[k].day = 10 * (arr[0] - '0') + (arr[1] - '0');
         stb[k].month = 10 * (arr[3] - '0') + (arr[4] - '0');
         stb[k].year = 1000 * (arr[6] - '0') + 100 * (arr[7] - '0') + 10 * (arr[8] - '0') + (arr[9] - '0');
-
         if (strcmp(point, stb[k].z_book) == 0) {
-            SetConsoleCP(1251);
-            SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-            setlocale(LC_ALL, "Rus"); //руссификатор для консоли
             FILE* file2;
-
             int j = 0;
             int i = 0;
             file2 = fopen("books.csv", "r");                               // подсчет строк
@@ -267,9 +254,7 @@ char stud_book_file3(char* point) {
                 }
         }
         fclose(file2);
-
-        }
-        
+        }   
     }
     if (flag == 0)
     printf("\nУ этого студента нет книг из библиотеки");
@@ -279,11 +264,8 @@ char stud_book_file3(char* point) {
 
 char prov_st(char* point) {
     printf("\n");
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-    setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+    rus();
     FILE* file;
-
     char str[N];
     int j = 0;
     int i = 0;
@@ -302,7 +284,6 @@ char prov_st(char* point) {
             c++;
     }
     c++;
-
     struct student* st;
     st = (struct student*)malloc(c * sizeof(struct student));
     fclose(file);
@@ -331,9 +312,7 @@ char prov_st(char* point) {
     return 0;
 }
 void return_data(long long point) {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-    setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+    rus();
     FILE* file;
     file = fopen("student_books.csv", "r");
     int c = 0;
@@ -370,11 +349,8 @@ void return_data(long long point) {
 }
 void  students_menu() {
     printf("\n");
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-    setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+    rus();
     FILE* file;
-
     char str[N];
     int j = 0;
     int i = 0;
@@ -392,7 +368,6 @@ void  students_menu() {
             c++;
     }
     c++;
-
     struct student* st;
     st = (struct student*)malloc(c * sizeof(struct student));
     fclose(file);
@@ -430,11 +405,6 @@ void  students_menu() {
                 printf("No such file");
                 exit(-333);
             }
-           /* while (!feof(file2)) {                                         // пока не кончится файл
-                if (fgetc(file2) == '\n')
-                    c++;
-            }
-            c++;*/
             printf("\nВведите номер зачетной книжки: ");
             str[0] = getchar();
             str[j] = getchar();
@@ -466,8 +436,6 @@ void  students_menu() {
             str[j] = '\0';
             strncpy(n_str.s_name, str, N);
             j = 0;
-
-            //printf("\n%s", lib[i].author);
             printf("\nВведите имя студента: ");
 
             str[j] = getchar();
@@ -479,7 +447,6 @@ void  students_menu() {
             strncpy(n_str.name, str, N);
             j = 0;
             printf("\nВведите отчество студента: ");
-
             str[j] = getchar();
             while (str[j] != '\n') {
                 j++;
@@ -489,7 +456,6 @@ void  students_menu() {
             strncpy(n_str.m_name, str, N);
             j = 0;
             printf("\nВведите факультет: ");
-
             str[j] = getchar();
             while (str[j] != '\n') {
                 j++;
@@ -499,7 +465,6 @@ void  students_menu() {
             strncpy(n_str.kaf, str, N);
             j = 0;
             printf("\nВведите специальность: ");
-
             str[j] = getchar();
             while (str[j] != '\n') {
                 j++;
@@ -508,7 +473,6 @@ void  students_menu() {
             str[j] = '\0';
             strncpy(n_str.spec, str, N);
             j = 0;
-
             fprintf(file2, "%s;%s;%s;%s;%s;%s\n", n_str.z_book, n_str.s_name, n_str.name, n_str.m_name, n_str.kaf, n_str.spec);
             fclose(file2);
             c++;
@@ -582,7 +546,6 @@ void  students_menu() {
             printf("Successful!\n");
             fclose(file);
         }
-
         else if (choice == 4) {
             FILE* file2 = fopen("students.csv", "w");
             printf("\nВведите название файла: ");
@@ -670,11 +633,8 @@ void  students_menu() {
 void books_menu() {
 
     while (1) {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251); //руссификатор для записи данных в файл
-        setlocale(LC_ALL, "Rus"); //руссификатор для консоли
+        rus();
         FILE* file;
-
         char str[N];
         int j = 0;
         int i = 0;
@@ -686,12 +646,10 @@ void books_menu() {
                 c++;
         }
         c++;
-
         struct book* lib;
         lib = (struct book*)malloc(c * sizeof(struct book));
         fclose(file);
         file = fopen("books.csv", "r");
-
         fscanf(file, "%lld;", &lib[i].ISBN);
         while (lib[i].ISBN > 0) {                                    // изначально записано огромное отрицательное число
             while ((str[j] = fgetc(file)) != '\n') {                 // из-за того, что пробел ломает прогу, пришлось сделать копированием
@@ -713,16 +671,11 @@ void books_menu() {
                 else j++;
             }
             fscanf(file, "%u;%u", &lib[i].all_amount, &lib[i].amount);
-
-            //printf("%10lld%30s%35s%6u%4u\n", lib[i].ISBN, lib[i].author, lib[i].b_name, lib[i].all_amount, lib[i].amount);
-
             i++;
             fscanf(file, "%lld;", &lib[i].ISBN); //для перехода на следующую строку. если следующая строка пустая, то цикл прекратится и ничего не выведется
         }
-
         printf("\nВыберите операцию:\n1) Добавить книгу\n2) Удалить книгу\n3) Сделать бэкап\n4) Восстановить базу по бэкапу\n5) Информация о студентах, которые взяли книгу\n6) Поиск по фамилии автора\n7) Выдать книгу студенту\n8) Завершить программу\n");
         fclose(file);
-
         int operation;
         scanf("%d", &operation);
         if (operation == 1) {
@@ -732,12 +685,6 @@ void books_menu() {
             j = 0;
             printf("\nВведите ISBN: ");
             scanf("%lld", &new_ISBN);
-            //count(new_ISBN);
-            //if (count(new_ISBN) != 10) {
-            //  printf("Incorrect ISBN");
-            // exit(-1);
-            //}
-            // else {
             while (lib[i].ISBN > 0) {
                 if (lib[i].ISBN == new_ISBN) {
                     printf("\nТакая книга уже существует");
@@ -745,7 +692,6 @@ void books_menu() {
                 }
                 else
                     ++i;
-                // }
             }
             lib[i].ISBN = new_ISBN;
             printf("\nВведите имя автора: ");
@@ -758,10 +704,7 @@ void books_menu() {
             str[j] = '\0';
             strncpy(lib[i].author, str, N);
             j = 0;
-
-            //printf("\n%s", lib[i].author);
             printf("\nВведите название книги: ");
-
             str[j] = getchar();                       // во 2 раз где-то лишний символ
             while (str[j] != '\n') {
                 j++;
@@ -770,7 +713,6 @@ void books_menu() {
             str[j] = '\0';
             strncpy(lib[i].b_name, str, N);
             j = 0;
-
             printf("\nВсего книг: ");
             scanf("%u", &lib[i].all_amount);
             printf("\nДоступно книг: ");
@@ -804,12 +746,6 @@ void books_menu() {
             printf("\nВведите ISBN: ");
             scanf("%lld", &del_ISBN);
             printf("\n");
-            /* count(del_ISBN);
-             if (count(del_ISBN) != 10) {
-                 printf("Incorrect ISBN");
-                 exit(-1);
-             }
-             else {*/
             while (lib[i].ISBN > 0)
                 i++;
             if (stud_book_file1(del_ISBN) == 1) {
@@ -823,7 +759,6 @@ void books_menu() {
                         fprintf(file, "%lld;%s;%s;%u;%u\n", lib[k].ISBN, lib[k].author, lib[k].b_name, lib[k].all_amount, lib[k].amount);
                     }
                 }
-                //}
                 fclose(file);
             }
         }
@@ -885,7 +820,6 @@ void books_menu() {
             int req_line = 0;
             int k = 0;
             file = fopen("books.csv", "r");
-            //printf("%lld", lib[i].ISBN);
             printf("Введите имя автора: ");
             str[0] = getchar();
             str[j] = getchar();
@@ -932,7 +866,6 @@ void books_menu() {
             scanf("%lld", &add_ISBN);
             file = fopen("books.csv", "w");           //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             for (i = 0; i < (c - 1); i++) {
-
                 if (lib[i].ISBN == add_ISBN) {
                     ok_ISBN = 1;
                     s = i;
@@ -955,9 +888,7 @@ void books_menu() {
                 printf("\nВведите дату возврата книги (дд.мм.гггг): ");
                 char arr[N] = { 0 };
                 char data[N];
-
                 scanf("%s", data);
-
                 fprintf(file, "%lld;%s;%s\n", lib[s].ISBN, add_z_book, data);
                 fclose(file);
             }
@@ -971,7 +902,6 @@ void books_menu() {
         }
         else if (operation == 8) {
         fclose(file);
-
         return;
         }
     }
@@ -1001,7 +931,6 @@ int main()
             c++;
     }
     c++;
-
     struct user* usr;
     usr = (struct user*)malloc(c * sizeof(struct user));
     fclose(file);
@@ -1074,7 +1003,7 @@ int main()
         if (b_acc[0] == 49 && s_acc[0] == 49) {
             while (1) {
                 int n;
-                printf("\nВыберите меню:\n1) Книги\n2) Студенты\n3) Выход\n");
+                printf("\nВыберите меню:\n1) Книги\n2) Студенты\n3) Выход\n-->");
                 scanf("%d", &n);
                 if (n == 1) {
                     books_menu();
@@ -1097,6 +1026,5 @@ int main()
             students_menu();
         }
     }
-
     fclose(file);
 }
